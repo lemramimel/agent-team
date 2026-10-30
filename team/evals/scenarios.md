@@ -92,6 +92,7 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 
 ## S18. BMAD proposal
 - In a project without BMAD and no recorded answer, Atlas proposes BMAD once, with cost, prerequisites, command and warnings, and does not install anything
+- Only an answer the user gave is stored: with no reply (or a "no questions" instruction) nothing is written and the proposal stays pending
 - The answer is stored in `team/methods.json`; the next mission does not ask again (`declined`) or asks again only for `later`
 - In a project with BMAD, `methods-check.sh` says `installed` and the build step uses `bmad-build`
 - With skills present but no `_bmad/`, the status is `broken` and the user is told to run `bmad setup`
