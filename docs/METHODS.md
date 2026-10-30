@@ -53,5 +53,11 @@ No AI attribution; no commit, merge or push on `main` or `develop`; no push, mer
 ## Adding or replacing a skill
 Read it in full; compare it with the current pick on coverage, precision, size, self-containment, rule conflicts and license; copy it only if it wins. Add a line to `vendor/skills.lock`, run `scripts/vendor-skills.sh fetch`, adapt, add the entry to `THIRD_PARTY.md`, run `scripts/vendor-check.sh`.
 
+## Verified on real runs (scenario S17, 2026-10-30)
+- Skills of this plugin are referenced as `agent-team:<name>` in agent frontmatter and prompts. Preloaded skills reached the agents: Amelia, Vera and Mira each quoted text that only exists in their preloaded skill (`test-driven-development`, `requesting-code-review`, `to-spec`), without reading any file. Whether short names would also have resolved was not tested.
+- A skill upstream flagged manual-only (`disable-model-invocation: true`) is not loadable by an agent: `to-spec` and `to-tickets` had that flag and Mira reported "not preloaded" until it was removed.
+- A subagent invoked a non-preloaded skill by name with the `Skill` tool (`agent-team:diagnosing-bugs`) and quoted its first step exactly.
+- Real bugs were found with evidence: Vera caught a defect that Amelia's fix introduced, which was reproduced independently.
+
 ## Not verified
-Annex files and scripts of some upstream skills were not read in full (they are not copied); no skill was exercised on a real task, only read. Whether an agent can invoke a non-preloaded skill by name is to be confirmed on a real run (scenario S17).
+Single runs, on a tiny Node project. `bmad-build` was not exercised (the test project has no BMAD). Annex files and scripts of some upstream skills were not read in full (they are not copied). The quality of the skills in real use, as opposed to their loading, is not measured.

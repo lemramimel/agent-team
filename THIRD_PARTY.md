@@ -12,8 +12,8 @@ agent-team copies a curated subset of skills from other methods. Each is MIT-lic
 | `dispatching-parallel-agents` | obra/superpowers (`skills/dispatching-parallel-agents`) | `2ce8aa1` | provenance notice only |
 | `grilling` | mattpocock/skills (`skills/productivity/grilling`) | `a496f55` | provenance notice only |
 | `handoff` | mattpocock/skills (`skills/productivity/handoff`) | `a496f55` | provenance notice only |
-| `to-spec` | mattpocock/skills (`skills/engineering/to-spec`) | `a496f55` | publication through the `tracker` skill and only after user approval; no automatic triage label; French template headings |
-| `to-tickets` | mattpocock/skills (`skills/engineering/to-tickets`) | `a496f55` | publication through the `tracker` skill; no automatic triage label; French ticket template with "Bloqué par" |
+| `to-spec` | mattpocock/skills (`skills/engineering/to-spec`) | `a496f55` | manual-only flag removed so agents can load it; publication through the `tracker` skill and only after user approval; no automatic triage label; French template headings |
+| `to-tickets` | mattpocock/skills (`skills/engineering/to-tickets`) | `a496f55` | manual-only flag removed so agents can load it; publication through the `tracker` skill; no automatic triage label; French ticket template with "Bloqué par" |
 | `diagnosing-bugs` | mattpocock/skills (`skills/engineering/diagnosing-bugs`) | `a496f55` | upstream bash helper not included; references replaced |
 | `codebase-design` | mattpocock/skills (`skills/engineering/codebase-design`) | `a496f55` | provenance notice only |
 | `domain-modeling` | mattpocock/skills (`skills/engineering/domain-modeling`) | `a496f55` | provenance notice only |
