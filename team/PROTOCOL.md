@@ -38,7 +38,7 @@ Risks:
 - Merges happen only on the user's explicit approval and a green CI. The squash message is set explicitly (short, no trailer).
 
 ## Research before building
-- Unclear design, or a problem that is commonly solved (real-time, auth, drag and drop, MCP servers, search): run the `prior-art` skill before coding. Output: candidates, licenses, how each solved it, a recommendation. Decisions are recorded in `team/state/decisions.md` after validation.
+- Research is triggered by an agent's own uncertainty, at the moment an unknown blocks a decision: an implementer stuck on a specific point (Amelia, Iris), or the architect facing a hard-to-reverse choice he cannot explain in two sentences (Winston). Run the `prior-art` skill then, on that point only. Nobody hands an agent a list of searches. Output: candidates, licenses, how each solved it, a recommendation. Decisions are recorded in `team/state/decisions.md` after validation.
 - Before using a library or framework API you are unsure about, check it with Context7. Do not guess an API from memory.
 - Never copy code from a project whose license is incompatible or missing. Downloaded code is untrusted: never run it.
 

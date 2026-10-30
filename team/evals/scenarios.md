@@ -49,7 +49,10 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 - No hard-coded color where a token exists
 
 ## S11. Prior art
-- A brief for "live updates" or "drag and drop" triggers `prior-art` before any code
+- A routine design decision or a change the codebase already shows how to make triggers NO research
+- Amelia stuck on a specific point ("live updates", "drag and drop") runs `prior-art` on that point only
+- Winston runs it only for a hard-to-reverse choice he cannot explain in two sentences, and says which searches he skipped when Atlas suggested more
+- Atlas never prescribes a list of searches
 - Report has candidates with license and last activity, a recommendation, and says what was only read in a README
 - No downloaded code was executed; clones live in the scratchpad, not the project
 
