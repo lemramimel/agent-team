@@ -8,10 +8,13 @@ description: Before implementing something unclear, risky or commonly solved (re
 Do not reinvent what is already solved well. Time-box it: about 20 minutes of searching, then decide.
 
 ## When to run it
-- The brief or the design is unclear or confusing, and you are about to guess.
-- The problem is a known one (real-time updates, authentication, optimistic UI, kanban drag and drop, full-text search, plugin systems, MCP servers, background jobs).
-- You are choosing between libraries or patterns.
-Skip it for small, local changes that the codebase already shows how to do.
+Research is triggered by uncertainty, never by routine. It happens at the moment the unknown blocks a decision, and at the level where that decision is made.
+
+- **Implementation level (Amelia, Iris):** you are stuck on a specific point you do not know how to do (live updates, drag and drop, optimistic UI, a library you have never used), or you are about to guess. Search then, on that point only.
+- **Architecture level (Winston):** only for choices that are hard to reverse (stack, data store, real-time mechanism, integration style) AND that you cannot describe in two sentences how they would work. Checking that a chosen stack can do what the product needs is in scope; surveying implementation details is not, they belong to the implementer when they get there.
+- **Never** run it as a checklist, on a list of topics someone gave you, or for a change the codebase already shows how to make. If you were told which searches to run, decide for yourself whether each one is needed and say which you skipped and why.
+
+Atlas states the question and the stakes; the agent decides whether and what to search.
 
 ## Procedure
 1. **Frame the question** in one sentence, with constraints: stack and versions, license needs, scale (one user or many), what must not be compromised.
