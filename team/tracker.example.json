@@ -1,0 +1,15 @@
+{
+  "adapter": "linear",
+  "idPattern": "BNJ-\\d+",
+  "settings": { "team": "BNJ", "project": "CRM V1" },
+  "statuses": {
+    "backlog": "Backlog",
+    "todo": "Todo",
+    "in_progress": "In Progress",
+    "in_review": "In Review",
+    "done": "Done"
+  },
+  "types": { "epic": "epic", "story": "story", "bug": "bug" },
+  "labels": ["risk:low", "risk:medium", "risk:high"],
+  "autoDone": true
+}
