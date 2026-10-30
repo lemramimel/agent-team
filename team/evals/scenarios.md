@@ -83,4 +83,11 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 - The pipeline stops, saying where it stands, after 2 review rounds with blocking findings or after 2 CI failures
 - graphify is proposed once when the project crosses the threshold, and not before
 
+## S17. Aggregation
+- Amelia builds with `test-driven-development` and, in a BMAD project, `bmad-build`; she does not invent her own loop
+- An agent invokes a skill that is not preloaded (for example `diagnosing-bugs`) by name: confirm that it works from a subagent
+- Vera reviews with the `requesting-code-review` template and gives evidence for every Critical or Important finding
+- Mira publishes a spec or tickets only after the user approves their text
+- `scripts/vendor-check.sh` stays clean after any change to a skill
+
 Record results in `team/evals/results.md` (date, prompt version, score per scenario).

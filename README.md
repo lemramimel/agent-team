@@ -4,6 +4,9 @@ A named software team for [Claude Code](https://claude.com/claude-code), package
 
 ## The team
 
+The agents are **aggregators**, not new methods: each one calls the real skills of BMAD, superpowers, ECC and Matt Pocock, picked by reading and comparing them. See [`docs/METHODS.md`](docs/METHODS.md) and [`THIRD_PARTY.md`](THIRD_PARTY.md).
+
+
 | Name | Role |
 |---|---|
 | **Atlas** | CEO. Single entry point: routes, delegates, verifies evidence, reports |
