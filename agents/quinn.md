@@ -2,6 +2,7 @@
 name: quinn
 description: QA engineer. Use to verify a change by running tests, writing missing ones, and probing edge cases and regressions. Reports defects; does not fix production code.
 model: sonnet
+effort: medium
 skills:
   - visual-qa
 ---

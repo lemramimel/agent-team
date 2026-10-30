@@ -58,6 +58,9 @@ Whenever a team member is mentioned to the user, the role follows the name: Atla
 ## Tickets: any tracker
 Agents talk to a tracker-neutral contract (search, get, create, update, setStatus, comment, link, list) through the `tracker` skill. A per-project `team/tracker.json` picks the adapter: **Linear, Jira, ClickUp, GitHub Issues, plain markdown files, or a custom tracker** whose operations you map yourself (for example your own Linear exposed as an MCP server). Changing tracker never touches the agents. See [`docs/TRACKERS.md`](docs/TRACKERS.md); validate a config with `scripts/check-tracker-config.sh`.
 
+## Tokens
+The plugin's prompts are cheap (about 1.3k tokens); the cost is in how work is passed around. Git goes through a script (`scripts/git-flow.sh`, no model), models are routed by task (no opus), reports stay under 15 lines with details in files, agents are not resumed more than twice, and `team/state/usage.md` records consumption per mission. See [`docs/TOKENS.md`](docs/TOKENS.md).
+
 ## Design, research and docs
 - **Iris** builds the visual layer with the `ui-craft` skill, and uses `impeccable` (shape, critique, polish) when installed.
 - **`prior-art`**: before building something unclear or commonly solved, Winston, Amelia or Iris search GitHub for how mature projects did it, with license and safety rules.

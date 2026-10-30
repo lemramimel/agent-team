@@ -5,6 +5,9 @@ description: Rules for commit messages, PR descriptions and merges. Short, no AI
 
 # Git hygiene
 
+## Tool
+Execute with `git-flow.sh` (`branch`, `commit`, `pr`, `merge`, `cleanup`, `status`): it applies every rule below and returns one short line per operation. In a project: `team/bin/git-flow.sh`.
+
 ## Commit message
 - Subject only, <= 72 chars. Add a body only when the "why" is not obvious (max 2 lines).
 - Match the repo: language, `type(scope): summary` if conventional commits are in use.

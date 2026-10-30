@@ -8,15 +8,16 @@ Work starts from a ticket, read through the `tracker` skill (Linear, Jira, Click
 ## Brief (Atlas -> member), `team/state/briefs/<id>.md`
 ```
 Goal:
-Context (files to read):
+Context (files to read, with the sections to read in long documents):
 Constraints:
 Deliverable:
 Done when (verifiable):
 Do NOT touch:
+Report: 15 lines max, details in team/state/reports/<id>.md
 ```
 Before sending a brief, Atlas compares it with the ticket's "to do" and "out of scope". Any contradiction is resolved first.
 
-## Report (member -> Atlas)
+## Report (member -> Atlas), 15 lines maximum
 ```
 Done:
 Proof (command + output tail):
@@ -31,6 +32,29 @@ Risks:
 ## Naming in messages to the user
 Every time a team member is mentioned in a message to the user, the role follows the name in parentheses, in the user's language: Atlas (CEO), Mira (PM), Winston (architecte), Sally (UX), Iris (UI), Amelia (dev), Ned (DevOps), Quinn (QA), Vera (revue de code), Sam (sécurité), Gita (Git). This applies to every mention, not only the first, and to every agent, since Atlas relays the others' work.
 
+## Token discipline
+Measured in this team's first projects: the plugin's own prompts cost about 1.3k tokens, while most consumption came from how work was passed around (see `docs/TOKENS.md`).
+
+**Model and effort routing.** No opus. Atlas passes `model` and `effort` at each spawn:
+
+| Tier | Model, effort | Work |
+|---|---|---|
+| Mechanical | haiku, low | simple summaries, ticket creation from a template (git itself needs no model: `git-flow.sh`) |
+| Standard | sonnet, medium | Atlas, Mira, Sally, Iris, Amelia, Ned, Quinn; review of `risk:low` tickets |
+| Deep | sonnet, high | Winston on a hard-to-reverse choice, Vera on `risk:medium` and `risk:high`, Sam, hard debugging |
+
+To use another Sonnet version for a tier, put its full model ID in the agent's `model:` field.
+
+**Handoffs.** Agents cannot talk to each other; everything goes through Atlas, so what a report contains stays in Atlas's context for every later turn. Therefore:
+- Anything longer than about 10 lines goes in a file under `team/state/` (specs, reports, decisions). The message carries the path and a summary of 15 lines at most.
+- Files are read by the agent that needs them, only the needed sections. A file costs its size once per reader; an inline report costs its size on every turn it stays in Atlas's context, plus the tokens Atlas spends rewriting it into the next brief.
+- Every long document starts with a `## Résumé` of 20 lines at most and a list of sections, so a reader can stop early.
+- Never paste full diffs, raw JSON or whole files into a message: give paths, counts and the relevant lines.
+
+**Reuse of agents.** Resume an agent at most twice. After that, spawn a fresh one with a brief and the previous report file: a resumed agent drags its whole history along.
+
+**Usage log.** At the end of each mission Atlas appends to `team/state/usage.md`: date, mission, agent, model and effort, tokens and tool uses from the agent's usage metadata (or `n/a`). Non-interactive runs get a spending cap (`--max-budget-usd`). Optimize from this log, not from impressions.
+
 ## Definition of done
 - Tests, lint, type-check and build were run and the output is attached. No proof, no done.
 - Atlas reruns lint, type-check and tests itself before accepting a report.
@@ -41,7 +65,7 @@ Every time a team member is mentioned in a message to the user, the role follows
 - No Co-Authored-By, no Claude-Session, no "Generated with", no AI mention, in commits, PRs and merges.
 - PR title carries the ticket id; the branch name never does.
 - PR body is structured: Contexte, Changements, Vérification, Limites (in the repo's language), one-line bullets.
-- Only Gita commits, pushes, opens PRs and merges. Never directly on main or develop: branch `<type>/<scope>-<description>`, PR into develop. See docs/BRANCHING.md.
+- Git goes through `git-flow.sh`, which enforces these rules: run by Gita for judgment work (commit splits, messages, PR body), by Atlas for mechanical steps. Never directly on main or develop: branch `<type>/<scope>-<description>`, PR into develop. See docs/BRANCHING.md.
 - Merges happen only on the user's explicit approval and a green CI. The squash message is set explicitly (short, no trailer).
 
 ## Research before building

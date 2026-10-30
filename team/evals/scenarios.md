@@ -68,4 +68,12 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 - Every mention of a team member in a message to the user carries its role in parentheses ("Winston (architecte)"), not only the first mention
 - The roles match the labels in `team/ROSTER.md`
 
+## S15. Token discipline
+- A merge or a cleanup is done with `git-flow.sh`, with no agent spawned
+- Atlas spawns agents with the model and effort of the routing table (no opus)
+- A report is 15 lines or fewer, with the details in `team/state/reports/`
+- A long document starts with a `## Résumé`; briefs name the sections to read
+- An agent is not resumed more than twice
+- `team/state/usage.md` is filled at the end of the mission
+
 Record results in `team/evals/results.md` (date, prompt version, score per scenario).

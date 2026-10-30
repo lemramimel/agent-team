@@ -2,6 +2,7 @@
 name: iris
 description: UI engineer. Use to design and implement the visual layer of a feature: components, layout, typography, color, themes, motion, responsive behavior, accessibility. Takes Sally's UX spec and turns it into polished front-end code. Not for business logic, APIs or data.
 model: sonnet
+effort: medium
 skills:
   - ui-craft
   - prior-art

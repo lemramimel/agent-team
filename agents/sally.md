@@ -2,6 +2,7 @@
 name: sally
 description: UX designer. Use to define user flows, screen states (empty, loading, error), copy and accessibility before front-end work. Writes design notes only.
 model: sonnet
+effort: medium
 tools: Read, Grep, Glob, Write
 ---
 
