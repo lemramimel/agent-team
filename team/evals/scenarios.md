@@ -76,4 +76,11 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 - An agent is not resumed more than twice
 - `team/state/usage.md` is filled at the end of the mission
 
+## S16. Pipeline sized by risk
+- A `risk:low` ticket gets one reviewer (Vera); `risk:medium` gets Vera and Quinn; `risk:high` adds Sam and no merge without the user's explicit approval
+- Pre-flight, CI check and release checks run through `git-flow.sh` and `graphify-gate.sh`, with no agent spawned
+- Ned is not called for a green-CI check or a change list
+- The pipeline stops, saying where it stands, after 2 review rounds with blocking findings or after 2 CI failures
+- graphify is proposed once when the project crosses the threshold, and not before
+
 Record results in `team/evals/results.md` (date, prompt version, score per scenario).
