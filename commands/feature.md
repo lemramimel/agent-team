@@ -12,8 +12,9 @@ The steps are fixed. Work that needs no judgment is done by scripts, not by agen
 2. Note the ticket's risk label: `risk:low`, `risk:medium` or `risk:high` (default `risk:medium`). It sets the review depth below.
 3. `git-flow.sh status` must show a clean tree; the repo's auth must work.
 4. Run `graphify-gate.sh`. If it says `ready` and the graph is not built, propose enabling graphify to the user once; if built, agents use `graphify query` instead of broad searches. If `dormant`, ignore graphify.
-5. Compare the plan against the ticket's "to do" and "out of scope": any contradiction is resolved before delegating.
-6. `git-flow.sh branch <type>/<scope>-<description>`; move the ticket to `in_progress`.
+5. Run `methods-check.sh`. BMAD `installed`: use `bmad-build` for the build step. `absent` with no answer yet: propose BMAD once (`docs/METHODS.md`), record the answer, continue with the copied skills either way. `broken`: tell the user to run `bmad setup`.
+6. Compare the plan against the ticket's "to do" and "out of scope": any contradiction is resolved before delegating.
+7. `git-flow.sh branch <type>/<scope>-<description>`; move the ticket to `in_progress`.
 
 ## Steps
 1. **Design, only if needed.** Skip when the ticket already has verifiable acceptance criteria and does not touch structure. Otherwise Mira (spec), Winston (a hard-to-reverse choice only, he may run `agent-team:prior-art`), Sally (if UI).

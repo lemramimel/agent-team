@@ -53,6 +53,19 @@ No AI attribution; no commit, merge or push on `main` or `develop`; no push, mer
 ## Adding or replacing a skill
 Read it in full; compare it with the current pick on coverage, precision, size, self-containment, rule conflicts and license; copy it only if it wins. Add a line to `vendor/skills.lock`, run `scripts/vendor-skills.sh fetch`, adapt, add the entry to `THIRD_PARTY.md`, run `scripts/vendor-check.sh`.
 
+## When BMAD is absent: one proposal, never an installation
+`scripts/methods-check.sh` (no model tokens) says whether BMAD is usable in the project: `installed`, `absent` or `broken` (skills present but no `_bmad/`). When it is `absent` and the user has not answered yet, Atlas proposes BMAD **once**, records the answer (`methods-check.sh decide bmad installed|declined|later`, stored in `team/methods.json`) and never asks again unless the answer is `later`. Agents never install a method: the installer is interactive and modifies the repository, so the user runs it and the result goes through a PR.
+
+What to tell the user:
+- **What BMAD adds here:** `bmad-build` (plan, build, review and a local commit in one loop), `bmad-retrospective` (epic retros with sourced findings), `bmad-prd` (full PRDs). Without BMAD, the copied skills (TDD, plans, verification, review) cover the same ground piece by piece.
+- **Cost:** BMAD needs the project's `_bmad/` runtime (about 900 KB in bnj-crm) and `uv`; the 33 skills of a full install add about 2,100 tokens of descriptions to every session and subagent. A selective install is cheaper.
+- **Prerequisites** (BMAD docs): Node.js 20.12+, Python 3.10+, `uv`, git.
+- **Command, selective install** (pattern from BMAD's install page for v7, composed here for our three skills, **not verified on this machine**): `npx skills add bmad-code-org/BMAD-METHOD --skill bmad --skill bmod-core-tools --skill bmod-method --skill bmad-build --skill bmad-retrospective --skill bmad-prd`, then ask the `bmad` skill to run `bmad setup`, which installs the runtime under `_bmad/`. The full install is the same command with `--skill '*'`.
+- **Warnings from BMAD itself:** v7 is a preview alpha whose install path changes often (the stable line is v6.12, installed with `npx bmad-method install`). Its skills run Python scripts from `_bmad/scripts/` with `uv run`, customization files under `_bmad/custom/` can add steps the skills run, and some skills read text written by others (tickets, PR diffs), which security scanners flag as a prompt-injection risk. Install only if you accept that.
+- **Our recommendation:** yes for a project that will carry many tickets and epics (like bnj-crm); no for a small project.
+
+What is established: the three skills are not self-contained. They call `{project-root}/_bmad/scripts/` (`resolve_config.py`, `render_skill.py`, `memlog.py`, `resolve_customization.py`) and `_bmad/method/scripts/tickets.py`, so copying their folders alone cannot work. What is **not** established: that the selective install above produces a working `_bmad/` for `bmad-build`. The test was blocked (see the pull request).
+
 ## Verified on real runs (scenario S17, 2026-10-30)
 - Skills of this plugin are referenced as `agent-team:<name>` in agent frontmatter and prompts. Preloaded skills reached the agents: Amelia, Vera and Mira each quoted text that only exists in their preloaded skill (`test-driven-development`, `requesting-code-review`, `to-spec`), without reading any file. Whether short names would also have resolved was not tested.
 - A skill upstream flagged manual-only (`disable-model-invocation: true`) is not loadable by an agent: `to-spec` and `to-tickets` had that flag and Mira reported "not preloaded" until it was removed.
