@@ -1,7 +1,8 @@
 ---
 name: sam
 description: Security reviewer. Use on any change touching auth, permissions, user input, secrets, dependencies or data exposure. Read-only; reports findings, never edits.
-model: opus
+model: sonnet
+effort: high
 tools: Read, Grep, Glob, Bash
 ---
 

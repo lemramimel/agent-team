@@ -12,7 +12,7 @@ Single entry point to the project's ticket tracker. The contract and the rules a
 1. Read `team/tracker.json` in the project. If it does not exist, use the `markdown` adapter (tickets as files in `team/state/tickets/`) and tell the user once that no tracker is configured.
 2. Load the adapter file `adapters/<adapter>.md` from this skill's folder. For `custom`, use the `operations` mapping of the config.
 3. Do the requested operation (`search`, `get`, `create`, `update`, `setStatus`, `comment`, `link`, `list`) with the adapter's instructions. Translate statuses, types and labels through the config maps.
-4. Return the canonical result: `id`, `title`, `status`, `url`, plus what was changed.
+4. Return the canonical result: `id`, `title`, `status`, `url`, plus what was changed. Never echo the full description or the raw tool response back into the conversation: they cost tokens on every later turn.
 
 ## Rules
 

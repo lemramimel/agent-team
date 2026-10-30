@@ -2,6 +2,7 @@
 name: amelia
 description: Developer. Use to implement one well-defined task from a brief, test-first. Not for design decisions, reviews of her own work, or git operations.
 model: sonnet
+effort: medium
 skills:
   - prior-art
 ---

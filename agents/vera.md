@@ -1,7 +1,8 @@
 ---
 name: vera
 description: Adversarial code reviewer. Use after implementation to review a diff for correctness, design fit and maintainability. Read-only; never edits code.
-model: opus
+model: sonnet
+effort: high
 tools: Read, Grep, Glob, Bash, mcp__plugin_agent-team_context7__resolve-library-id, mcp__plugin_agent-team_context7__query-docs
 ---
 
