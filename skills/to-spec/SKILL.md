@@ -1,7 +1,6 @@
 ---
 name: to-spec
 description: "Turn the current conversation into a spec and publish it to the project issue tracker: no interview, just synthesis of what you've already discussed."
-disable-model-invocation: true
 ---
 <!-- Vendored from mattpocock/skills@a496f55 (skills/engineering/to-spec), MIT, see THIRD_PARTY.md. Adapted for agent-team: see THIRD_PARTY.md. -->
 
