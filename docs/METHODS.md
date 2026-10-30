@@ -1,0 +1,57 @@
+# Methods: what the agents aggregate
+
+agent-team does not invent its own methods. Each agent is a role that calls the real skills of several methods (BMAD, superpowers, ECC, gstack, Matt Pocock), picked by comparison: for every case, the best skill, read in full, not chosen by reputation. Where a gap remained, a skill of our own fills it.
+
+Verified 2026-10-30 by reading the skills at the pinned commits (see `vendor/skills.lock`). Sizes are bytes / 4. Licenses: all MIT (BMAD: MIT, (c) BMad Code LLC).
+
+## How skills are delivered
+- **Copied into this plugin** (21 skills, `THIRD_PARTY.md`): self-contained markdown, pinned by commit, scanned by `scripts/vendor-check.sh`. No upstream script is copied.
+- **Used as a dependency when present**: BMAD skills need the project's `_bmad/` folder, `uv` and BMAD scripts, so they cannot be copied. Agents use them in a project where BMAD is installed (`bmad-build`, `bmad-retrospective`, `bmad-prd`) and fall back to the skills below elsewhere.
+- **Not used**: gstack (see below).
+- **Ours**: only where nothing else covers the case.
+
+## The pick for each case
+
+| Case | Pick | From | Why it won |
+|---|---|---|---|
+| Frame a vague idea | `grilling` | Matt Pocock | 0.5k tokens, no dependency, one question at a time with a recommended answer |
+| Spec from a discussion | `to-spec` | Matt Pocock | short template; publication adapted (see below). Full PRD with BMAD: `bmad-prd` |
+| Split into tickets | `to-tickets` | Matt Pocock | vertical slices, blocking edges, the user approves the split |
+| Publish and manage tickets | `tracker` | ours | only one neutral across Linear, Jira, ClickUp, GitHub Issues and a custom tracker; `bmad-ticket` has no ClickUp, ~70k tokens, needs `_bmad/` |
+| Architecture decisions | `architecture-decision-records` | ECC | full ADR format with a filter to avoid pointless ADRs |
+| Module and domain design | `codebase-design`, `domain-modeling` | Matt Pocock | short, precise vocabulary; glossary |
+| Prior art and up-to-date docs | `prior-art` (ours), `documentation-lookup` | ours, ECC | only prior-art has an action budget, a license rule and "never run downloaded code" |
+| TDD | `test-driven-development` | superpowers | red-green-refactor, test must fail for the right reason, guards against excuses |
+| Build a ticket | `bmad-build` | BMAD | only one covering plan, build, review and a local commit; stops without pushing (read in `step-03`, `step-05`); dependency |
+| Plan | `writing-plans` | superpowers | tasks with files, signatures and expected command output |
+| Debug | `diagnosing-bugs` | Matt Pocock | deterministic reproduction before any hypothesis |
+| Verify before "done" | `verification-before-completion` | superpowers | no claim without a command run, including sub-agent reports |
+| Review a diff | `requesting-code-review` | superpowers | read-only, short, three severities, one agent; hardened with a pre-report gate |
+| Handle review findings | `receiving-code-review` | superpowers | only dedicated candidate: verify before implementing |
+| Security review | `security-review` + Sam | ECC | agent plus checklists; read-only |
+| Real-browser QA, before/after, light/dark | `visual-qa` | ours | uses the project's Playwright; the others need a binary, an MCP or are generic |
+| UI design | `ui-craft` + `frontend-design-direction` | ours, ECC | short plan and tokens, plus a verifiable state table |
+| Accessibility | `accessibility` | ECC | WCAG 2.2 checklist (mobile parts removed) |
+| Flow bugs between handlers and store | `click-path-audit` | ECC | covers what states tables do not |
+| Git, PR, merge | `git-hygiene`, `git-flow.sh` | ours | enforce our rules in code; nothing else does |
+| PR body | `pr-description` | Matt Pocock | mapped onto our four sections |
+| Parallel work | `dispatching-parallel-agents` | superpowers | short and sharp |
+| Mission retro | `retro` (Matt Pocock); `bmad-retrospective` for a BMAD epic | | |
+| Token discipline | `docs/TOKENS.md` | ours | measured on our own projects; `handoff` (Matt Pocock) to relay context |
+
+## Not used, and why
+- **gstack, entirely.** Its skills need compiled binaries and a shared preamble with telemetry. `ship` writes a `Co-Authored-By: Claude` trailer and a "Generated with Claude Code" line and pushes without asking; `land-and-deploy` pushes to the base branch on rollback; `review` edits code itself. The browser binary alone is a 229 MB repository plus a build and a Chromium download.
+- **ECC `git-workflow`**: pushes to `main`, uses `git add .`, names branches `feature/...`.
+- **superpowers `finishing-a-development-branch`**: offers a local merge into the base branch. Its worktree cleanup is covered by `git-flow.sh cleanup`.
+- **Matt Pocock `implement-spec`**: opens a draft PR without asking. **`git-guardrails-claude-code`**: its hook blocks every `git push`, including `git-flow.sh pr`.
+- **BMAD `bmad-review`**: no severity, demands at least 10 findings (an incentive to invent), needs `_bmad/`. Its sibling `bmad-code-review` has the best triage, which inspired our pre-report gate, but is heavy and not self-contained.
+- **ECC `tdd-workflow`**: needs an ECC script and imposes 80% coverage. **`hexagonal-architecture`**: imposes one architecture, against a modular monolith.
+
+## What every skill must respect (checked by `scripts/vendor-check.sh`)
+No AI attribution; no commit, merge or push on `main` or `develop`; no push, merge or deploy without the user's approval; no `git add .`; no forced push or hard reset; no remote script execution.
+
+## Adding or replacing a skill
+Read it in full; compare it with the current pick on coverage, precision, size, self-containment, rule conflicts and license; copy it only if it wins. Add a line to `vendor/skills.lock`, run `scripts/vendor-skills.sh fetch`, adapt, add the entry to `THIRD_PARTY.md`, run `scripts/vendor-check.sh`.
+
+## Not verified
+Annex files and scripts of some upstream skills were not read in full (they are not copied); no skill was exercised on a real task, only read. Whether an agent can invoke a non-preloaded skill by name is to be confirmed on a real run (scenario S17).

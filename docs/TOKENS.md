@@ -21,6 +21,9 @@ Unverified: the exact split of a subagent's base cost (system prompt, CLAUDE.md,
 5. **Documents with a summary.** `## Résumé` of 20 lines at most first, section list, briefs name the sections to read.
 6. **Measure.** `team/state/usage.md` per mission, and `--max-budget-usd` on non-interactive runs.
 
+## Cost of aggregating skills
+Measured with `claude plugin details agent-team`: always-on cost 1,319 tokens before the copied skills, 2,789 after 21 copied skills (about 70 tokens each). Four of them (`handoff`, `retro`, `to-spec`, `to-tickets`) are manual-only upstream and add nothing until used. Each agent preloads only its core skills; the others load on demand. Installing a whole method would have been far heavier: ECC alone has 314 skills.
+
 ## Model versions
 By the official API list prices (cached 2026-10-06; a subscription's usage limit may weight models differently, unverified): Haiku 5.5 $0.10 / $0.50 per million tokens (input / output), Sonnet 5.5 and Sonnet 5 $2 / $10, Sonnet 4.6 $3 / $15, Opus 5.5 $4 / $20. Older Sonnet versions are therefore not a saving. The levers are Haiku 5.5 for mechanical work and the effort level on Sonnet 5.5.
 
