@@ -25,6 +25,9 @@ The ticket id goes in the PR title or description, not in the branch name.
 
 Server-side protection also applies to admins, so a PR is always required. The only direct push is the first commit of a new repo, done by `scripts/new-project.sh`.
 
+## Merge mode
+`git-flow.sh merge` squashes feature PRs into `develop` and uses a merge commit for release PRs into `main`. The merge-commit path is not yet tested on a real release.
+
 ## New project
 `/new-project <name> [--public|--private]` creates the repo with `main` and `develop`, sets `develop` as default, protects both, installs the hooks.
 For an existing repo, run `/team-init`.

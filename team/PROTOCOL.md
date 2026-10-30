@@ -39,11 +39,13 @@ Measured in this team's first projects: the plugin's own prompts cost about 1.3k
 
 | Tier | Model, effort | Work |
 |---|---|---|
-| Mechanical | haiku, low | simple summaries, ticket creation from a template (git itself needs no model: `git-flow.sh`) |
+| Mechanical | haiku, low | simple summaries, ticket creation from a template (git, CI status and change lists need no model: `git-flow.sh`) |
 | Standard | sonnet, medium | Atlas, Mira, Sally, Iris, Amelia, Ned, Quinn; review of `risk:low` tickets |
 | Deep | sonnet, high | Winston on a hard-to-reverse choice, Vera on `risk:medium` and `risk:high`, Sam, hard debugging |
 
-To use another Sonnet version for a tier, put its full model ID in the agent's `model:` field.
+Only two model families are used: Haiku 5.5 and Sonnet 5.5, the current ones. Older Sonnet versions are not a saving: by the official API list prices, Sonnet 4.6 costs 50% more than Sonnet 5.5 and Sonnet 5 costs the same. Cost is tuned with the effort level, not with older versions. To pin a version, put its full model ID in the agent's `model:` field; record the model actually used in `team/state/usage.md`.
+
+**Review depth by risk.** `risk:low`: Vera. `risk:medium`: Vera and Quinn. `risk:high`: Vera, Quinn and Sam, and the merge needs the user's explicit approval. Fresh agent per round, 2 rounds at most.
 
 **Handoffs.** Agents cannot talk to each other; everything goes through Atlas, so what a report contains stays in Atlas's context for every later turn. Therefore:
 - Anything longer than about 10 lines goes in a file under `team/state/` (specs, reports, decisions). The message carries the path and a summary of 15 lines at most.

@@ -21,6 +21,12 @@ Unverified: the exact split of a subagent's base cost (system prompt, CLAUDE.md,
 5. **Documents with a summary.** `## Résumé` of 20 lines at most first, section list, briefs name the sections to read.
 6. **Measure.** `team/state/usage.md` per mission, and `--max-budget-usd` on non-interactive runs.
 
+## Model versions
+By the official API list prices (cached 2026-10-06; a subscription's usage limit may weight models differently, unverified): Haiku 5.5 $0.10 / $0.50 per million tokens (input / output), Sonnet 5.5 and Sonnet 5 $2 / $10, Sonnet 4.6 $3 / $15, Opus 5.5 $4 / $20. Older Sonnet versions are therefore not a saving. The levers are Haiku 5.5 for mechanical work and the effort level on Sonnet 5.5.
+
+## What `/livrer-ticket` does better, and what we took from it
+A fixed pipeline with stop rules, one review agent instead of three, tests written before the code, git without an agent, no relaying of reports. Our visual QA in a real browser costs more but found real defects that a code review cannot see, so it stays for UI changes. `commands/feature.md` now follows a fixed pipeline with review depth sized by the ticket's risk.
+
 ## Files or inline handoffs?
 Agents cannot talk to each other; everything passes through Atlas.
 - **Inline** costs the report's size on every later turn it stays in Atlas's context, plus the output tokens Atlas spends rewriting it into the next brief. Output tokens are the most expensive kind.

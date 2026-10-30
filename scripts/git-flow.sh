@@ -6,6 +6,8 @@
 #   git-flow.sh pr --title "<title>" --body-file <file> [--base <base>]
 #   git-flow.sh merge <pr-number> --subject "<subject>"
 #   git-flow.sh cleanup [branch]
+#   git-flow.sh ci [<pr-number> | --branch <name>]
+#   git-flow.sh changes [<from>] [<to>]
 #   git-flow.sh status
 # Output is deliberately short.
 set -u
@@ -101,7 +103,9 @@ cmd_merge() {
     die "CI is not green on PR #$n:
 $checks"
   fi
-  gh pr merge "$n" --squash --subject "$subject" --body "" >/dev/null || die "merge failed"
+  local mode=--squash
+  [ "$base" = main ] && mode=--merge   # release PRs (develop -> main) keep a merge commit
+  gh pr merge "$n" $mode --subject "$subject" --body "" >/dev/null || die "merge failed"
   local i st=""
   for i in 1 2 3 4 5 6; do
     st=$(gh pr view "$n" --json state -q .state); [ "$st" = MERGED ] && break; sleep 3
@@ -112,7 +116,7 @@ $checks"
   msg=$(git log -1 --format=%B "origin/$base")
   attrib=$(printf '%s' "$msg" | grep -Eic "$ATTR_RE|claude|anthropic")
   gone=$(git ls-remote --heads origin "$head" | wc -l)
-  echo "merged: #$n -> $base | subject: $(git log -1 --format=%s "origin/$base") | body empty: $([ -z "$(git log -1 --format=%b "origin/$base")" ] && echo yes || echo NO) | attribution hits: $attrib | remote branch deleted: $([ "$gone" -eq 0 ] && echo yes || echo NO)"
+  echo "merged: #$n -> $base ($([ "$mode" = --merge ] && echo "merge commit" || echo squash)) | subject: $(git log -1 --format=%s "origin/$base") | body empty: $([ -z "$(git log -1 --format=%b "origin/$base")" ] && echo yes || echo NO) | attribution hits: $attrib | remote branch deleted: $([ "$gone" -eq 0 ] && echo yes || echo NO)"
 }
 
 cmd_cleanup() {
@@ -133,6 +137,47 @@ cmd_cleanup() {
   echo "cleanup: on $base $(git rev-parse --short HEAD) | local branches: $(git branch --list | tr -d ' *' | tr '\n' ' ')| dirty: $(git status --short | wc -l) | == origin: $([ "$(git rev-parse "$base")" = "$(git rev-parse "origin/$base")" ] && echo yes || echo NO)"
 }
 
+cmd_ci() {
+  # Compact CI status. With a PR number (or the current branch's PR): its checks.
+  # With --branch <name>: the latest workflow run on that branch.
+  if [ "${1:-}" = "--branch" ]; then
+    local br=${2:-}; [ -n "$br" ] || die "usage: ci --branch <name>"
+    local j; j=$(gh run list --branch "$br" --limit 1 --json status,conclusion,url,displayTitle 2>/dev/null)
+    if [ "$(printf '%s' "$j" | jq 'length' 2>/dev/null || echo 0)" -ge 1 ]; then
+      echo "ci: latest run on $br: $(printf '%s' "$j" | jq -r '.[0] | "\(.status) / \(.conclusion // "-") | \(.displayTitle) | \(.url)"')"
+    else
+      echo "ci: no workflow run on $br"
+    fi
+    return 0
+  fi
+  local n=${1:-}
+  [ -n "$n" ] || n=$(gh pr view --json number -q .number 2>/dev/null) || die "no PR for the current branch"
+  local out rc; out=$(gh pr checks "$n" 2>&1); rc=$?
+  if printf '%s' "$out" | grep -qi 'no checks reported'; then echo "ci: PR #$n has no checks configured"; return 0; fi
+  local pass fail pend
+  pass=$(printf '%s\n' "$out" | awk -F'\t' '$2=="pass"' | wc -l)
+  fail=$(printf '%s\n' "$out" | awk -F'\t' '$2=="fail"' | wc -l)
+  pend=$(printf '%s\n' "$out" | awk -F'\t' '$2=="pending"' | wc -l)
+  echo "ci: PR #$n | pass $pass | fail $fail | pending $pend"
+  if [ "$fail" -gt 0 ]; then
+    printf '%s\n' "$out" | awk -F'\t' '$2=="fail" {print "  failing: "$1}'
+    local run; run=$(printf '%s\n' "$out" | awk -F'\t' '$2=="fail" {print $4; exit}' | sed -nE 's#.*/runs/([0-9]+)/.*#\1#p')
+    [ -n "$run" ] && { echo "  log tail (run $run):"; gh run view "$run" --log-failed 2>/dev/null | tail -n 25 | sed 's/^/    /'; }
+    return 1
+  fi
+  [ "$pend" -gt 0 ] && return 2
+  return 0
+}
+
+cmd_changes() {
+  git fetch -q origin --tags 2>/dev/null
+  local from=${1:-} to=${2:-origin/develop}
+  [ -n "$from" ] || from=$(git describe --tags --abbrev=0 origin/main 2>/dev/null || echo origin/main)
+  local n; n=$(git rev-list --count "$from..$to" 2>/dev/null) || die "cannot compare $from..$to"
+  echo "changes: $n commit(s) in $to since $from"
+  git log --no-merges --format='  %h %s' "$from..$to" | head -n 40
+}
+
 cmd_status() {
   echo "branch: $(cur) | dirty: $(git status --short | wc -l) | worktrees: $(git worktree list | wc -l) | local: $(git branch --list | tr -d ' *' | tr '\n' ' ')"
 }
@@ -144,6 +189,8 @@ case "$sub" in
   pr) cmd_pr "$@" ;;
   merge) cmd_merge "$@" ;;
   cleanup) cmd_cleanup "$@" ;;
+  ci) cmd_ci "$@" ;;
+  changes) cmd_changes "$@" ;;
   status) cmd_status ;;
-  *) die "usage: git-flow.sh branch|commit|pr|merge|cleanup|status" ;;
+  *) die "usage: git-flow.sh branch|commit|pr|merge|cleanup|ci|changes|status" ;;
 esac
