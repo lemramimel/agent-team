@@ -34,4 +34,4 @@ Real runs of the plugin in throwaway projects with a local fake remote, non-inte
 6. Iris repeated the primary color as a raw `rgba` for a shadow. Fixed: derived colors use `color-mix` or an existing token.
 
 ### Still to replay
-S15 (resume count, `## Résumé`), S6 (markdown adapter in a full run), S11 (the research report format when `prior-art` runs), S15 (resume count, `## Résumé`), S16 (`risk:medium`, the 2-round and 2-CI stop rules, graphify proposed once), and S8 once a Playwright project is available.
+S6 (markdown adapter in a full run), S11 (the research report format when `prior-art` runs), S15 (resume count, `## Résumé`), S16 (`risk:medium`, the 2-round and 2-CI stop rules, graphify proposed once), and S8 once a Playwright project is available.
