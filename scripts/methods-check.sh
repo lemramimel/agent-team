@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 # Detects whether BMAD is usable in a project and remembers the user's answer. Costs no model tokens.
 #   methods-check.sh [dir]                              one status line
-#   methods-check.sh decide bmad <installed|declined|later> [dir]   remember the answer in team/methods.json
+#   methods-check.sh decide bmad <installed|declined|later> [dir]      remember the answer in team/methods.json
+#   methods-check.sh decide graphify <enabled|declined|later> [dir]   same file, other key
 # It never installs anything: installing a method is the user's decision and command.
 set -u
 if [ "${1:-}" = "decide" ]; then
-  [ "${2:-}" = "bmad" ] && case "${3:-}" in installed|declined|later) ;; *) echo "usage: methods-check.sh decide bmad installed|declined|later [dir]" >&2; exit 1 ;; esac
-  dir=${4:-.}; mkdir -p "$dir/team"
-  jq -n --arg v "$3" --arg d "$(date +%F)" '{bmad: $v, decidedOn: $d}' > "$dir/team/methods.json"
-  echo "methods: bmad decision recorded: $3"; exit 0
+  case "${2:-}:${3:-}" in
+    bmad:installed|bmad:declined|bmad:later|graphify:enabled|graphify:declined|graphify:later) ;;
+    *) echo "usage: methods-check.sh decide bmad installed|declined|later | decide graphify enabled|declined|later [dir]" >&2; exit 1 ;;
+  esac
+  dir=${4:-.}; mkdir -p "$dir/team"; f="$dir/team/methods.json"
+  [ -f "$f" ] && jq empty "$f" 2>/dev/null || echo '{}' > "$f"
+  jq --arg k "$2" --arg v "$3" --arg d "$(date +%F)" '.[$k] = $v | .decidedOn = $d' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+  echo "methods: $2 decision recorded: $3"; exit 0
 fi
 dir=${1:-.}
 cd "$dir" || { echo "methods-check: cannot enter $dir" >&2; exit 1; }

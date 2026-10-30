@@ -15,7 +15,7 @@ Done when (verifiable):
 Do NOT touch:
 Report: 15 lines max, details in team/state/reports/<id>.md
 ```
-Before sending a brief, Atlas compares it with the ticket's "to do" and "out of scope". Any contradiction is resolved first.
+Briefs are written with the Write tool, never with a shell heredoc. Before sending a brief, Atlas compares it with the ticket's "to do" and "out of scope". Any contradiction is resolved first.
 
 ## Report (member -> Atlas), 15 lines maximum
 ```
@@ -30,12 +30,12 @@ Risks:
 - Atlas relays their work to the user and arbitrates between them. In every synthesis, each recommendation names its author; Atlas's own findings (cross-review contradictions, gaps) are labelled as his.
 
 ## Naming in messages to the user
-Every time a team member is mentioned in a message to the user, the role follows the name in parentheses, in the user's language: Atlas (CEO), Mira (PM), Winston (architecte), Sally (UX), Iris (UI), Amelia (dev), Ned (DevOps), Quinn (QA), Vera (revue de code), Sam (sécurité), Gita (Git). This applies to every mention, not only the first, and to every agent, since Atlas relays the others' work.
+Every time a team member is mentioned in a message to the user, the role follows the name in parentheses, in the user's language: Atlas (CEO), Mira (PM), Winston (architecte), Sally (UX), Iris (UI), Amelia (dev), Ned (DevOps), Quinn (QA), Vera (revue de code), Sam (sécurité), Gita (Git). This applies to every mention, not only the first, and to every agent, since Atlas relays the others' work. Wrong: "Vera et Quinn le signalent". Right: "Vera (revue de code) et Quinn (QA) le signalent".
 
 ## Token discipline
 Measured in this team's first projects: the plugin's own prompts cost about 1.3k tokens, while most consumption came from how work was passed around (see `docs/TOKENS.md`).
 
-**Model and effort routing.** No opus. Atlas passes `model` and `effort` at each spawn:
+**Model and effort routing.** No opus. Each agent file carries the model and effort of its tier, so Atlas passes `model` and `effort` at spawn only to deviate from the file (today: Vera at `medium` on `risk:low`). Tiers:
 
 | Tier | Model, effort | Work |
 |---|---|---|

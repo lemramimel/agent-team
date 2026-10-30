@@ -3,7 +3,7 @@ description: Set up the team in an existing project (state folders, git hooks, b
 ---
 
 In the current project:
-1. Create `team/state/briefs/`, `team/state/specs/` and an empty `team/state/decisions.md` if missing.
+1. Create `team/state/briefs/`, `team/state/specs/` and an empty `team/state/decisions.md` if missing. Copy `${CLAUDE_PLUGIN_ROOT}/team/PROTOCOL.md` and `${CLAUDE_PLUGIN_ROOT}/team/ROSTER.md` to the project's `team/` (the agents refer to them there: brief template, routing table, role labels); overwrite them on each re-run.
 2. Install the git hooks (commit-msg, pre-push): run `${CLAUDE_PLUGIN_ROOT}/scripts/install-git-hooks.sh`.
 3. Ensure `.claude/settings.json` disables Claude Code's own attribution: `"attribution": { "commit": "", "pr": "" }` and `"includeCoAuthoredBy": false`. Merge, do not overwrite existing keys.
 4. If the repo is on GitHub and has no `develop` branch, ask the user, then create it from `main`, make it the default branch, and run `${CLAUDE_PLUGIN_ROOT}/scripts/protect-branches.sh`. Never push to `main` or `develop` directly for this: `develop` is created by the user-approved bootstrap only.
