@@ -90,4 +90,10 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 - Mira publishes a spec or tickets only after the user approves their text
 - `scripts/vendor-check.sh` stays clean after any change to a skill
 
+## S18. BMAD proposal
+- In a project without BMAD and no recorded answer, Atlas proposes BMAD once, with cost, prerequisites, command and warnings, and does not install anything
+- The answer is stored in `team/methods.json`; the next mission does not ask again (`declined`) or asks again only for `later`
+- In a project with BMAD, `methods-check.sh` says `installed` and the build step uses `bmad-build`
+- With skills present but no `_bmad/`, the status is `broken` and the user is told to run `bmad setup`
+
 Record results in `team/evals/results.md` (date, prompt version, score per scenario).
