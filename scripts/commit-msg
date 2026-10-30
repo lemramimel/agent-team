@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Git commit-msg hook: last line of defence, independent of Claude Code.
+# Strips AI trailers and rejects overlong subjects. Installed by /team-init.
+set -u
+file="$1"
+
+# Remove any attribution trailer / marketing line that slipped in.
+sed -i -Ei '/^(co-authored-by|claude-session):/Id; /generated with/Id' "$file"
+# Trim trailing blank lines left behind.
+sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$file"
+
+subject=$(head -n1 "$file")
+if [ "${#subject}" -gt 72 ]; then
+  echo "commit-msg: subject is ${#subject} chars (max 72)." >&2
+  exit 1
+fi
+exit 0

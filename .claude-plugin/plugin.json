@@ -1,0 +1,6 @@
+{
+  "name": "agent-team",
+  "version": "0.1.0",
+  "description": "A named software team (CEO, PM, architect, dev, QA, reviewer, git) for Claude Code. Talk to Atlas, he delegates.",
+  "author": { "name": "lemra" }
+}
