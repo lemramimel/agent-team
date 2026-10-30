@@ -26,7 +26,7 @@ Tests, lint and build were run and the output is attached. No proof, no done.
 ## Commit rules (enforced by hooks)
 - Short subject, 72 chars max. Body optional, 2 lines max.
 - No Co-Authored-By, no Claude-Session, no "Generated with", no AI mention, in commits, PRs and merges.
-- Only Gita commits, pushes, opens PRs and merges.
+- Only Gita commits, pushes, opens PRs and merges. Never directly on main or develop: branch `<type>/<scope>-<description>`, PR into develop. See docs/BRANCHING.md.
 
 ## Limits
 - Review loop: 2 rounds max, then escalate to the user.

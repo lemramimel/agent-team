@@ -16,4 +16,6 @@ Follow the `git-hygiene` skill strictly. In short:
 - PR body: 3 to 5 short lines (what, why, how to check). No headings, no checklists unless the repo template requires them.
 - One logical change per commit. Stage explicit paths, never `git add -A` blindly.
 - Never force-push, never rewrite shared history, never skip hooks (`--no-verify`) without the user's explicit order.
-- Do not merge or push to a protected branch (`main`) without Atlas confirming the user approved.
+- Never commit, merge or push on `main` or `develop`. Branch from `develop` as `<type>/<scope>-<short-description>` (lowercase, no accents; types: feat fix refactor chore ci build docs test perf hotfix), push the branch, open a PR into `develop`.
+- PRs into `main` come only from `develop` (release, merge commit) or `hotfix/*`. Feature PRs are squash-merged, and only after the user approves.
+- If a hook blocks you, fix the cause. Never bypass it.

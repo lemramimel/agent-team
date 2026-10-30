@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Git pre-push hook: refuse any direct push to main or develop, from any tool.
+# Installed by /team-init. Server-side branch protection is the second layer.
+set -u
+while read -r _lref _lsha rref _rsha; do
+  case "$rref" in
+    refs/heads/main|refs/heads/develop)
+      echo "pre-push: direct push to ${rref#refs/heads/} is forbidden. Push a branch and open a PR." >&2
+      exit 1 ;;
+  esac
+done
+exit 0
