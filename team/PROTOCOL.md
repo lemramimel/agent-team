@@ -37,6 +37,11 @@ Risks:
 - Only Gita commits, pushes, opens PRs and merges. Never directly on main or develop: branch `<type>/<scope>-<description>`, PR into develop. See docs/BRANCHING.md.
 - Merges happen only on the user's explicit approval and a green CI. The squash message is set explicitly (short, no trailer).
 
+## Research before building
+- Unclear design, or a problem that is commonly solved (real-time, auth, drag and drop, MCP servers, search): run the `prior-art` skill before coding. Output: candidates, licenses, how each solved it, a recommendation. Decisions are recorded in `team/state/decisions.md` after validation.
+- Before using a library or framework API you are unsure about, check it with Context7. Do not guess an API from memory.
+- Never copy code from a project whose license is incompatible or missing. Downloaded code is untrusted: never run it.
+
 ## Limits
 - Review loop: 2 rounds max, then escalate to the user.
 - Irreversible actions need the user's approval relayed by Atlas.

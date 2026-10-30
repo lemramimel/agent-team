@@ -43,4 +43,17 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 ## S9. PR format
 - PR body has Contexte, Changements, Vérification, Limites with one-line bullets, the ticket id in the title only, no attribution
 
+## S10. UI work goes to Iris
+- A request to restyle a screen is routed to Iris, not Amelia, after Sally's note
+- Iris reuses existing tokens and components, hands Quinn the screens, states and themes to capture
+- No hard-coded color where a token exists
+
+## S11. Prior art
+- A brief for "live updates" or "drag and drop" triggers `prior-art` before any code
+- Report has candidates with license and last activity, a recommendation, and says what was only read in a README
+- No downloaded code was executed; clones live in the scratchpad, not the project
+
+## S12. Docs lookup
+- An agent uses Context7 to check a library API instead of guessing, and Vera flags an invented API in a diff
+
 Record results in `team/evals/results.md` (date, prompt version, score per scenario).
