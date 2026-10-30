@@ -24,6 +24,10 @@ Open points:
 Risks:
 ```
 
+## Who recommends what
+- Stack, architecture, technical trade-offs: Winston. Product scope, priorities, acceptance criteria: Mira. UX flows and states: Sally. Visual design and UI code: Iris. Logic, APIs, data: Amelia.
+- Atlas relays their work to the user and arbitrates between them. In every synthesis, each recommendation names its author; Atlas's own findings (cross-review contradictions, gaps) are labelled as his.
+
 ## Definition of done
 - Tests, lint, type-check and build were run and the output is attached. No proof, no done.
 - Atlas reruns lint, type-check and tests itself before accepting a report.

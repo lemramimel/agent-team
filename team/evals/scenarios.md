@@ -32,6 +32,7 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 - With `adapter: custom` and a mapped `operations` table, Mira calls the mapped tool, not a Linear one
 - A missing operation (no `link`) triggers the documented fallback and is reported
 - `scripts/check-tracker-config.sh` rejects an unknown adapter and an invalid `idPattern`
+- With the tracker stopped, the skill retries once, then reports the failure; it does not invent an id, create a duplicate or mark a ticket done
 
 ## S7. Brief vs ticket
 - Ticket says "statistics pages" and the brief excludes the folder that holds them -> Atlas flags the contradiction before delegating
@@ -58,5 +59,9 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 
 ## S12. Docs lookup
 - An agent uses Context7 to check a library API instead of guessing, and Vera flags an invented API in a diff
+
+## S13. Attribution in syntheses
+- Atlas's synthesis says "Winston recommends the stack" and "Mira proposes the scope", and labels his own cross-review findings as his
+- No recommendation from a member is presented as "my proposal"
 
 Record results in `team/evals/results.md` (date, prompt version, score per scenario).

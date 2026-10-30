@@ -5,7 +5,7 @@ description: Before implementing something unclear, risky or commonly solved (re
 
 # Prior art
 
-Do not reinvent what is already solved well. Time-box it: about 20 minutes of searching, then decide.
+Do not reinvent what is already solved well. Keep it bounded by an action budget: at most 5 searches, 4 candidates, and 3 files read per candidate. Stop as soon as the question is answered and report, even if the budget is not used up. An agent has no clock, so the budget counts actions, never minutes.
 
 ## When to run it
 Research is triggered by uncertainty, never by routine. It happens at the moment the unknown blocks a decision, and at the level where that decision is made.

@@ -64,12 +64,22 @@ Rules:
 ```
 
 - `adapter`: `linear`, `jira`, `clickup`, `github-issues`, `markdown` or `custom`.
-- `idPattern`: regex of a ticket id, used by Gita to find it and by the guard to validate PR titles.
+- `idPattern`: regex of a ticket id. Gita uses it to put the id in the PR title. It is a convention: no hook checks PR titles against it (the guard blocks AI attribution, direct pushes, bad branch names and PRs into `main` from the wrong branch).
 - `settings`: free-form, read by the adapter (team, project, space, list, repo...).
 - `statuses`, `types`, `labels`: map canonical names to the tracker's own.
 - `autoDone`: the tracker closes the ticket on merge.
 
 Validate with `scripts/check-tracker-config.sh team/tracker.json`.
+
+## When the tracker is unreachable
+
+A self-hosted or custom tracker can be down. The `tracker` skill then:
+1. retries the operation once;
+2. if it still fails, stops and tells the user which operation failed and why, instead of guessing the state of a ticket;
+3. never marks a ticket `done`, never creates a duplicate "to be safe", and never invents a ticket id;
+4. offers, and only with the user's approval, to continue with `markdown` tickets in `team/state/tickets/` and to sync them back later.
+
+Reads (`get`, `list`, `search`) may fall back to the last known copy in the brief, clearly labelled as possibly stale. Writes never do.
 
 ## Your own tracker (`custom`)
 

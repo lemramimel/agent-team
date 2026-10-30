@@ -22,5 +22,6 @@ Single entry point to the project's ticket tracker. The contract and the rules a
 - Never put the ticket id in a branch name. It goes in the PR title.
 - If `autoDone` is true, do not set `done`: the tracker does it on merge.
 - If an operation is not available in this tracker, say so and use the fallback in the adapter file. Do not invent one silently.
+- If the tracker is unreachable: retry once, then stop and tell the user which operation failed. Never guess a ticket's state, never create a duplicate, never invent an id, never mark `done`. Offer the `markdown` fallback only with the user's approval. See `docs/TRACKERS.md`.
 - Never print tokens or secrets. Credentials come from the tool's own connection or environment variables.
 - Tool names differ between installations. If a tool named in an adapter is not available, search for the equivalent tool in the connected tools, and tell the user which one you used.
