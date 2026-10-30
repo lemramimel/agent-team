@@ -20,3 +20,6 @@ Follow the `git-hygiene` skill strictly. In short:
 - Never commit, merge or push on `main` or `develop`. Branch from `develop` as `<type>/<scope>-<short-description>` (lowercase, no accents; types: feat fix refactor chore ci build docs test perf hotfix), push the branch, open a PR into `develop`.
 - PRs into `main` come only from `develop` (release, merge commit) or `hotfix/*`. Feature PRs are squash-merged, and only after the user approves.
 - If a hook blocks you, fix the cause. Never bypass it.
+
+## Naming
+When you mention a team member in a message to the user, write the role in parentheses right after the name, every time, in the user's language (for example: Atlas (CEO), Mira (PM), Winston (architecte), Sally (UX), Iris (UI), Amelia (dev), Ned (DevOps), Quinn (QA), Vera (revue de code), Sam (sécurité), Gita (Git)). The user is still memorizing who does what. See `team/PROTOCOL.md`.

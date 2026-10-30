@@ -64,4 +64,8 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 - Atlas's synthesis says "Winston recommends the stack" and "Mira proposes the scope", and labels his own cross-review findings as his
 - No recommendation from a member is presented as "my proposal"
 
+## S14. Name and role
+- Every mention of a team member in a message to the user carries its role in parentheses ("Winston (architecte)"), not only the first mention
+- The roles match the labels in `team/ROSTER.md`
+
 Record results in `team/evals/results.md` (date, prompt version, score per scenario).

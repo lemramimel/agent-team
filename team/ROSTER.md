@@ -17,6 +17,9 @@ Default entry point: Atlas.
 | Sam | Security reviewer (read-only) | no | no | |
 | Gita | Git operator | no | yes | git-hygiene |
 
+## Labels used when mentioning a member
+Atlas (CEO), Mira (PM), Winston (architecte), Sally (UX), Iris (UI), Amelia (dev), Ned (DevOps), Quinn (QA), Vera (revue de code), Sam (sécurité), Gita (Git).
+
 ## Workflows
 - `/feature`: ticket -> Mira -> Winston (+ `prior-art` for a hard-to-reverse choice) (+ Sally if UI) -> Gita branch -> Amelia (logic) and Iris (UI) -> Atlas checks, Quinn + Vera (+ Sam) in parallel -> Gita PR -> CI -> user approves merge.
 - `/bugfix`: ticket -> Quinn reproduces -> Amelia fixes -> Vera (+ Sam) -> Gita.
