@@ -10,7 +10,8 @@ A named software team for [Claude Code](https://claude.com/claude-code), package
 | **Mira** | Product manager: tickets, specs, acceptance criteria, task split |
 | **Winston** | Architect: design, trade-offs, decision records |
 | **Sally** | UX designer: flows, screen states, accessibility |
-| **Amelia** | Developer: implements one task from a brief, test-first |
+| **Amelia** | Developer: logic, APIs and data, one task from a brief, test-first |
+| **Iris** | UI engineer: components, layout, themes, accessibility, from Sally's UX note |
 | **Ned** | DevOps: CI, Docker, release mechanics |
 | **Quinn** | QA: tests, edge cases, regressions, real-browser checks (Playwright) |
 | **Vera** | Code reviewer, read-only by design |
@@ -54,6 +55,12 @@ Requires `git`, `gh` (authenticated) and `jq`. A handy alias: `alias team='claud
 ## Tickets: any tracker
 Agents talk to a tracker-neutral contract (search, get, create, update, setStatus, comment, link, list) through the `tracker` skill. A per-project `team/tracker.json` picks the adapter: **Linear, Jira, ClickUp, GitHub Issues, plain markdown files, or a custom tracker** whose operations you map yourself (for example your own Linear exposed as an MCP server). Changing tracker never touches the agents. See [`docs/TRACKERS.md`](docs/TRACKERS.md); validate a config with `scripts/check-tracker-config.sh`.
 
+## Design, research and docs
+- **Iris** builds the visual layer with the `ui-craft` skill, and uses `impeccable` (shape, critique, polish) when installed.
+- **`prior-art`**: before building something unclear or commonly solved, Winston, Amelia or Iris search GitHub for how mature projects did it, with license and safety rules.
+- **Context7** (bundled MCP server): agents check real library docs instead of guessing APIs.
+- What is bundled, recommended or left out, and why: [`docs/COMPANIONS.md`](docs/COMPANIONS.md).
+
 ## Visual QA
 The `visual-qa` skill makes Quinn verify UI changes in a real browser with Playwright: before/after captures, light and dark themes, every picture opened and described. It uses the project's own Playwright setup.
 
@@ -66,6 +73,9 @@ The `visual-qa` skill makes Quinn verify UI changes in a real browser with Playw
 
 Full table: [`docs/BRANCHING.md`](docs/BRANCHING.md).
 
+## Privacy
+The bundled Context7 MCP server is a remote service run by Upstash. Library names and documentation questions sent by the agents leave your machine; do not put secrets or proprietary code in a documentation query. To opt out, remove `.mcp.json`. Details in [`docs/COMPANIONS.md`](docs/COMPANIONS.md#privacy).
+
 ## Evaluation
 [`team/evals/scenarios.md`](team/evals/scenarios.md) lists replayable scenarios (feature, bug, adversarial guardrail prompts, direct calls, missing proof). Replay after every prompt or hook change.
 
@@ -73,8 +83,9 @@ Full table: [`docs/BRANCHING.md`](docs/BRANCHING.md).
 ```
 agents/      one file per team member
 commands/    slash commands (workflows, /ask, /new-project, /team-init)
-skills/      reusable methods (git-hygiene, tracker + adapters, visual-qa)
+skills/      reusable methods (git-hygiene, tracker + adapters, visual-qa, ui-craft, prior-art)
 hooks/       hooks.json registering the PreToolUse guard
+.mcp.json    Context7 MCP server
 scripts/     guard-git.sh, commit-msg, pre-push, protect-branches.sh, new-project.sh
 team/        roster, protocol, state templates, evals
 docs/        branching policy, ticket trackers

@@ -7,9 +7,10 @@ Default entry point: Atlas.
 |---|---|---|---|---|
 | Atlas | CEO, routing, synthesis | no | no | tracker |
 | Mira | PM, tickets, spec and tasks | no (docs, tickets) | no | tracker |
-| Winston | Architect | no (docs) | no | |
+| Winston | Architect | no (docs) | no | prior-art |
 | Sally | UX designer | no (docs) | no | |
-| Amelia | Developer | yes | no | |
+| Amelia | Developer (logic, APIs, data) | yes | no | prior-art |
+| Iris | UI engineer (visuals, components, themes) | yes (UI) | no | ui-craft, prior-art |
 | Ned | DevOps, CI, releases | CI/infra files | no | |
 | Quinn | QA | tests only | no | visual-qa |
 | Vera | Code reviewer (read-only) | no | no | |
@@ -17,7 +18,7 @@ Default entry point: Atlas.
 | Gita | Git operator | no | yes | git-hygiene |
 
 ## Workflows
-- `/feature`: ticket -> Mira -> Winston (+ Sally if UI) -> Gita branch -> Amelia -> Atlas checks, Quinn + Vera (+ Sam) in parallel -> Gita PR -> CI -> user approves merge.
+- `/feature`: ticket -> Mira -> Winston (+ `prior-art` if unclear) (+ Sally if UI) -> Gita branch -> Amelia (logic) and Iris (UI) -> Atlas checks, Quinn + Vera (+ Sam) in parallel -> Gita PR -> CI -> user approves merge.
 - `/bugfix`: ticket -> Quinn reproduces -> Amelia fixes -> Vera (+ Sam) -> Gita.
 - `/release`: Ned checks -> Gita opens the release PR -> user merges.
 - Question: Atlas answers or routes to the relevant member.
@@ -30,5 +31,8 @@ Default entry point: Atlas.
 - Small focused skills: Matt Pocock style
 - Tickets: the `tracker` skill and its adapters (`docs/TRACKERS.md`)
 - Browser verification: the `visual-qa` skill (Playwright)
+- UI design: the `ui-craft` skill, plus `impeccable` when installed (`docs/COMPANIONS.md`)
+- Finding how others solved it: the `prior-art` skill (GitHub search)
+- Up-to-date library docs: the Context7 MCP server (Amelia, Iris, Winston, Vera, Ned, Quinn)
 
 Branching and PR policy: `docs/BRANCHING.md`.
