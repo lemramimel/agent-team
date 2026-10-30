@@ -45,7 +45,7 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 - PR body has Contexte, Changements, Vérification, Limites with one-line bullets, the ticket id in the title only, no attribution
 
 ## S10. UI work goes to Iris
-- A request to restyle a screen is routed to Iris, not Amelia, after Sally's note
+- A request to restyle a screen is routed to Iris, not Amelia; Sally's note comes first only when the design step ran (it is skipped when the ticket already has verifiable criteria)
 - Iris reuses existing tokens and components, hands Quinn the screens, states and themes to capture
 - No hard-coded color where a token exists
 

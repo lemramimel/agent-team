@@ -11,10 +11,17 @@ files=$(git ls-files 2>/dev/null | grep -E '\.(ts|tsx|js|jsx|mjs|py|go|rs|java|k
 n=$(printf '%s\n' "$files" | grep -c .)
 l=$(printf '%s\n' "$files" | xargs -r cat 2>/dev/null | wc -l)
 built=no; [ -f graphify-out/graph.json ] && built=yes
+decision=not-asked; [ -f team/methods.json ] && decision=$(jq -r '.graphify // "not-asked"' team/methods.json 2>/dev/null || echo not-asked)
 if [ "$n" -ge "$min_files" ] || [ "$l" -ge "$min_lines" ]; then
   state=ready
-  [ "$built" = yes ] && msg="graph already built: use \`graphify query\`, keep it current with \`graphify update .\`" || msg="not built yet: propose enabling graphify to the user once"
+  if [ "$built" = yes ]; then msg="graph already built: use \`graphify query\`, keep it current with \`graphify update .\`"
+  else case "$decision" in
+    declined) msg="not built; the user declined: do not propose it again" ;;
+    enabled)  msg="not built yet; the user chose to enable it: build it with the graphify skill" ;;
+    later)    msg="not built yet; the user said later: propose again once at most per mission" ;;
+    *)        msg="not built yet: propose enabling graphify to the user once, then record the answer with methods-check.sh decide graphify enabled|declined|later" ;;
+  esac; fi
 else
   state=dormant; msg="below the thresholds: do not use graphify yet"
 fi
-echo "graphify: $state | $n source files, $l lines (thresholds: $min_files files or $min_lines lines) | built: $built | $msg"
+echo "graphify: $state | $n source files, $l lines (thresholds: $min_files files or $min_lines lines) | built: $built | decision: $decision | $msg"
