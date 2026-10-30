@@ -27,11 +27,19 @@ Details and workflows: [`team/ROSTER.md`](team/ROSTER.md). Handoff formats and d
 - **Flat delegation.** Claude Code subagents cannot spawn subagents, so Atlas dispatches; managers return plans.
 
 ## Install
+
+From the marketplace in this repository (one step, Claude Code 2.1.275 or later):
+```
+/plugin install agent-team --marketplace lemramimel/agent-team
+```
+
+Or from a local clone:
 ```bash
 git clone https://github.com/lemramimel/agent-team ~/agent-team
 claude --plugin-dir ~/agent-team --agent atlas
 ```
-Requires `git`, `gh` (authenticated) and `jq`.
+
+Requires `git`, `gh` (authenticated) and `jq`. A handy alias: `alias team='claude --plugin-dir ~/agent-team --agent atlas'`.
 
 ## Use
 | Command | What it does |
