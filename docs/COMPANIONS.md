@@ -27,7 +27,16 @@ agent-team ships its own agents, skills and hooks. Some capabilities are better 
 ### Context7 API key (optional)
 The server works without a key; a key raises rate limits. Do not commit a key. If you set one, use an environment variable.
 
+## Optional, measure first
+
+### `graphify` (knowledge graph of a codebase)
+- What it is, per its own skill and project rules: it turns code and documents into a persistent graph and answers `graphify query`, `path` and `explain` with a small scoped subgraph, usually much smaller than raw grep output; `graphify update .` keeps the code part current without model cost (AST only).
+- Where it should help: a large existing codebase, where agents otherwise grep and read many files to find their way. Little to gain on a new repository with little code.
+- Not adopted by default: no measurement exists yet. To decide, take 5 real questions about a large repo, answer them with and without it, and compare tokens and correctness in `team/state/usage.md`.
+
 ## Left out on purpose
+
+- **Obsidian**: a note-taking app. For agents it is only markdown files, so it saves no tokens by itself. What saves tokens is structure: a `## Résumé`, a section list and an index, which we do with plain markdown. The folder `team/state/` can still be opened in Obsidian later for human reading if you like.
 
 - **`taste-skill`** (`Leonxlnx/taste-skill` and several homonymous repositories): another style engine. Guides on these tools advise picking one style engine, not stacking them, and `impeccable` already fills that slot. Several unrelated repositories share the name, which makes it hard to pin one.
 - **`caveman`** (`JuliusBrussee/caveman`): shortens the model's replies to save output tokens. The project's own page says a plain "answer concisely" captured most of the gain, that the rules add about 1,160 input tokens, and that it does not measure reasoning quality. It also starts automatically in subagents and compresses review findings to one line each, which risks losing the context a review needs. Our protocol already requires short reports. Revisit only if output cost becomes a measured problem.
