@@ -1,0 +1,14 @@
+{
+  "name": "agent-team",
+  "owner": {
+    "name": "lemramimel"
+  },
+  "plugins": [
+    {
+      "name": "agent-team",
+      "source": "./",
+      "description": "A named software team for Claude Code: a CEO (Atlas) delegates to PM, architect, dev, QA, reviewer, security and git agents. Enforced PR-only flow, no AI attribution."
+    }
+  ],
+  "description": "Named software team for Claude Code (Atlas the CEO plus PM, architect, dev, QA, reviewers, git) with PR-only git guardrails and interchangeable ticket trackers."
+}

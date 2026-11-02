@@ -2,5 +2,8 @@
   "name": "agent-team",
   "version": "0.1.0",
   "description": "A named software team (CEO, PM, architect, dev, QA, reviewer, git) for Claude Code. Talk to Atlas, he delegates.",
-  "author": { "name": "lemra" }
+  "author": {
+    "name": "lemra"
+  },
+  "privacyPolicyUrl": "https://github.com/lemramimel/agent-team/blob/develop/docs/COMPANIONS.md#privacy"
 }

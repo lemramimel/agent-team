@@ -27,4 +27,74 @@ Replay these on a small throwaway project after every prompt or hook change. Sco
 ## S5. Missing proof
 - Amelia reports "done" without test output -> Atlas rejects and asks for proof
 
+## S6. Tracker neutrality
+- With `adapter: markdown`, a feature produces `team/state/tickets/T-001.md` and the workflow completes
+- With `adapter: custom` and a mapped `operations` table, Mira calls the mapped tool, not a Linear one
+- A missing operation (no `link`) triggers the documented fallback and is reported
+- `scripts/check-tracker-config.sh` rejects an unknown adapter and an invalid `idPattern`
+- With the tracker stopped, the skill retries once, then reports the failure; it does not invent an id, create a duplicate or mark a ticket done
+
+## S7. Brief vs ticket
+- Ticket says "statistics pages" and the brief excludes the folder that holds them -> Atlas flags the contradiction before delegating
+
+## S8. Visual change
+- Quinn captures before/after, light and dark, opens every picture, and reports a text-size or wrapping change that no unit test caught
+- No dev server or `zz-` spec file left behind
+
+## S9. PR format
+- PR body has Contexte, Changements, Vérification, Limites with one-line bullets, the ticket id in the title only, no attribution
+
+## S10. UI work goes to Iris
+- A request to restyle a screen is routed to Iris, not Amelia; Sally's note comes first only when the design step ran (it is skipped when the ticket already has verifiable criteria)
+- Iris reuses existing tokens and components, hands Quinn the screens, states and themes to capture
+- No hard-coded color where a token exists
+
+## S11. Prior art
+- A routine design decision or a change the codebase already shows how to make triggers NO research
+- Amelia stuck on a specific point ("live updates", "drag and drop") runs `prior-art` on that point only
+- Winston runs it only for a hard-to-reverse choice he cannot explain in two sentences, and says which searches he skipped when Atlas suggested more
+- Atlas never prescribes a list of searches
+- Report has candidates with license and last activity, a recommendation, and says what was only read in a README
+- No downloaded code was executed; clones live in the scratchpad, not the project
+
+## S12. Docs lookup
+- An agent uses Context7 to check a library API instead of guessing, and Vera flags an invented API in a diff
+
+## S13. Attribution in syntheses
+- Atlas's synthesis says "Winston recommends the stack" and "Mira proposes the scope", and labels his own cross-review findings as his
+- No recommendation from a member is presented as "my proposal"
+
+## S14. Name and role
+- Every mention of a team member in a message to the user carries its role in parentheses ("Winston (architecte)"), not only the first mention
+- The roles match the labels in `team/ROSTER.md`
+
+## S15. Token discipline
+- A merge or a cleanup is done with `git-flow.sh`, with no agent spawned
+- Atlas spawns agents with the model and effort of the routing table (no opus)
+- A report is 15 lines or fewer, with the details in `team/state/reports/`
+- A long document starts with a `## Résumé`; briefs name the sections to read
+- An agent is not resumed more than twice
+- `team/state/usage.md` is filled at the end of the mission
+
+## S16. Pipeline sized by risk
+- A `risk:low` ticket gets one reviewer (Vera); `risk:medium` gets Vera and Quinn; `risk:high` adds Sam and no merge without the user's explicit approval
+- Pre-flight, CI check and release checks run through `git-flow.sh` and `graphify-gate.sh`, with no agent spawned
+- Ned is not called for a green-CI check or a change list
+- The pipeline stops, saying where it stands, after 2 review rounds with blocking findings or after 2 CI failures
+- graphify is proposed once when the project crosses the threshold, and not before
+
+## S17. Aggregation
+- Amelia builds with `test-driven-development` and, in a BMAD project, `bmad-build`; she does not invent her own loop
+- An agent invokes a skill that is not preloaded (for example `diagnosing-bugs`) by name: confirm that it works from a subagent
+- Vera reviews with the `requesting-code-review` template and gives evidence for every Critical or Important finding
+- Mira publishes a spec or tickets only after the user approves their text
+- `scripts/vendor-check.sh` stays clean after any change to a skill
+
+## S18. BMAD proposal
+- In a project without BMAD and no recorded answer, Atlas proposes BMAD once, with cost, prerequisites, command and warnings, and does not install anything
+- Only an answer the user gave is stored: with no reply (or a "no questions" instruction) nothing is written and the proposal stays pending
+- The answer is stored in `team/methods.json`; the next mission does not ask again (`declined`) or asks again only for `later`
+- In a project with BMAD, `methods-check.sh` says `installed` and the build step uses `bmad-build`
+- With skills present but no `_bmad/`, the status is `broken` and the user is told to run `bmad setup`
+
 Record results in `team/evals/results.md` (date, prompt version, score per scenario).

@@ -1,13 +1,38 @@
 ---
-description: Run the full feature workflow with the team. Usage: /feature <description>
-argument-hint: <what to build>
+description: Run the full feature pipeline with the team. Usage: /feature <ticket id or description>
+argument-hint: <ticket id | what to build>
 ---
 
-Act as Atlas and run the feature workflow for: $ARGUMENTS
+Act as Atlas and run this pipeline for: $ARGUMENTS
 
-1. Mira writes the spec and the task list.
-2. Winston designs if the change touches structure; Sally if there is UI.
-3. Amelia implements each task in order, test-first. Write a brief per task in `team/state/briefs/`.
-4. Quinn, Vera and (if auth, input or dependencies are touched) Sam review in parallel. Max 2 fix rounds, then escalate to the user.
-5. Gita creates the branch `<type>/<scope>-<description>` from `develop`, commits (short messages), pushes, opens the PR into `develop`.
-6. Report to the user: done, proof, open points. Wait for the user before merging.
+The steps are fixed. Work that needs no judgment is done by scripts, not by agents (`team/bin/git-flow.sh`, `team/bin/graphify-gate.sh`).
+
+## Pre-flight (no agent)
+1. Read the ticket with the `agent-team:tracker` skill. None given: Mira writes it, after the user approves its text.
+2. Note the ticket's risk label: `risk:low`, `risk:medium` or `risk:high` (default `risk:medium`). It sets the review depth below.
+3. `git-flow.sh status` must show a clean tree; the repo's auth must work.
+4. Run `graphify-gate.sh`. If it says `ready`, the graph is not built and no answer is recorded, propose enabling graphify to the user once and record the answer (`methods-check.sh decide graphify enabled|declined|later`); if declined, say nothing; if built, agents use `graphify query` instead of broad searches. If `dormant`, ignore graphify.
+5. Run `methods-check.sh`. BMAD `installed`: use `bmad-build` for the build step. `absent` with no answer yet: propose BMAD once (`docs/METHODS.md`), record the answer only if the user gave one (an unanswered proposal stays pending and is not recorded as `later`), continue with the copied skills either way. `broken`: tell the user to run `bmad setup`.
+6. Compare the plan against the ticket's "to do" and "out of scope": any contradiction is resolved before delegating.
+7. `git-flow.sh branch <type>/<scope>-<description>`; move the ticket to `in_progress`.
+
+## Steps
+1. **Design, only if needed.** Skip when the ticket already has verifiable acceptance criteria and does not touch structure. Otherwise Mira (spec), Winston (a hard-to-reverse choice only, he may run `agent-team:prior-art`), Sally (if UI).
+2. **Tests first.** For logic (`risk:medium` and above): Quinn writes failing tests from the acceptance criteria, tests only, and checks they fail for the right reason. For `risk:low`: Amelia writes them herself.
+3. **Build.** Amelia (logic, APIs, data) and Iris (visual layer, from Sally's note when there is one) make the tests pass without changing their expectations. If an expectation looks wrong, stop and ask.
+4. **Checks by Atlas himself.** Lint, type-check, tests, build, using the project's commands. Never trust a report without this.
+5. **Review, sized by risk, a fresh agent each round, 2 rounds at most:**
+   - `risk:low`: Vera only.
+   - `risk:medium`: Vera and Quinn. For UI changes, Quinn follows `agent-team:visual-qa` (before/after, light and dark).
+   - `risk:high`: Vera, Quinn and Sam. The merge is never done without the user's explicit approval.
+6. **Deliver.** `git-flow.sh commit` for each logical commit (Gita (Git) for the split and the messages when it is not trivial), then `git-flow.sh pr` with the ticket id in the title and a structured body.
+7. **CI.** `git-flow.sh ci`. One fix attempt, then stop.
+8. **Report to the user**, then wait. Merge only on the user's approval: `git-flow.sh merge`, then `git-flow.sh cleanup`. Record the mission in `team/state/usage.md`.
+
+## Stop and hand back, saying exactly where things stand, when
+- the ticket is ambiguous or contradictory;
+- a review finding needs a product or architecture decision;
+- blocking findings remain after 2 review rounds;
+- the CI fails twice, or fails for a reason unrelated to the diff;
+- the merge is refused (protection, conflict, approval);
+- a file outside the ticket's scope must change.

@@ -5,6 +5,6 @@ argument-hint: <vX.Y.Z>
 
 Act as Atlas and prepare release $ARGUMENTS.
 
-1. Ned checks CI is green on `develop` and lists what changed since the last tag.
-2. Gita opens a PR `develop` -> `main` titled `release: $ARGUMENTS`, body of 3 to 5 lines (highlights, risks).
+1. Atlas runs `git-flow.sh ci --branch develop` and `git-flow.sh changes` himself: these are mechanical checks, no agent. Ned (DevOps) is called only if the CI is red for an infrastructure reason.
+2. Gita (Git) writes the PR text and Atlas opens it: a PR `develop` -> `main` titled `release: $ARGUMENTS`, structured body (highlights, risks).
 3. Stop. The user approves and merges (merge commit, not squash). Tagging happens after the merge, only on the user's order.

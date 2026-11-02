@@ -4,15 +4,19 @@ A named software team for [Claude Code](https://claude.com/claude-code), package
 
 ## The team
 
+The agents are **aggregators**, not new methods: each one calls the real skills of BMAD, superpowers, ECC and Matt Pocock, picked by reading and comparing them. See [`docs/METHODS.md`](docs/METHODS.md) and [`THIRD_PARTY.md`](THIRD_PARTY.md).
+
+
 | Name | Role |
 |---|---|
 | **Atlas** | CEO. Single entry point: routes, delegates, verifies evidence, reports |
-| **Mira** | Product manager: specs, acceptance criteria, task split |
+| **Mira** | Product manager: tickets, specs, acceptance criteria, task split |
 | **Winston** | Architect: design, trade-offs, decision records |
 | **Sally** | UX designer: flows, screen states, accessibility |
-| **Amelia** | Developer: implements one task from a brief, test-first |
+| **Amelia** | Developer: logic, APIs and data, one task from a brief, test-first |
+| **Iris** | UI engineer: components, layout, themes, accessibility, from Sally's UX note |
 | **Ned** | DevOps: CI, Docker, release mechanics |
-| **Quinn** | QA: tests, edge cases, regressions |
+| **Quinn** | QA: tests, edge cases, regressions, real-browser checks (Playwright) |
 | **Vera** | Code reviewer, read-only by design |
 | **Sam** | Security reviewer, read-only by design |
 | **Gita** | Git operator: the only one who commits, pushes, opens PRs |
@@ -27,11 +31,19 @@ Details and workflows: [`team/ROSTER.md`](team/ROSTER.md). Handoff formats and d
 - **Flat delegation.** Claude Code subagents cannot spawn subagents, so Atlas dispatches; managers return plans.
 
 ## Install
+
+From the marketplace in this repository (one step, Claude Code 2.1.275 or later):
+```
+/plugin install agent-team --marketplace lemramimel/agent-team
+```
+
+Or from a local clone:
 ```bash
 git clone https://github.com/lemramimel/agent-team ~/agent-team
 claude --plugin-dir ~/agent-team --agent atlas
 ```
-Requires `git`, `gh` (authenticated) and `jq`.
+
+Requires `git`, `gh` (authenticated) and `jq`. A handy alias: `alias team='claude --plugin-dir ~/agent-team --agent atlas'`.
 
 ## Use
 | Command | What it does |
@@ -43,13 +55,38 @@ Requires `git`, `gh` (authenticated) and `jq`.
 | `/release <version>` | Release PR `develop` -> `main` |
 | `/ask <name> <request>` | Talk directly to one member |
 
+## Naming
+Whenever a team member is mentioned to the user, the role follows the name: Atlas (CEO), Gita (Git), Winston (architecte)... The labels are in [`team/ROSTER.md`](team/ROSTER.md).
+
+## Tickets: any tracker
+Agents talk to a tracker-neutral contract (search, get, create, update, setStatus, comment, link, list) through the `tracker` skill. A per-project `team/tracker.json` picks the adapter: **Linear, Jira, ClickUp, GitHub Issues, plain markdown files, or a custom tracker** whose operations you map yourself (for example your own Linear exposed as an MCP server). Changing tracker never touches the agents. See [`docs/TRACKERS.md`](docs/TRACKERS.md); validate a config with `scripts/check-tracker-config.sh`.
+
+## Pipeline
+`/feature` follows a fixed pipeline inspired by a project-level `/livrer-ticket` skill: pre-flight, tests first, build, checks by Atlas himself, review sized by the ticket's risk (one reviewer for `risk:low`, up to three for `risk:high`), deliver, CI, report, merge on the user's approval, with explicit stop rules.
+
+## Tokens
+The plugin's prompts are cheap (about 1.3k tokens); the cost is in how work is passed around. Git goes through a script (`scripts/git-flow.sh`, no model), models are routed by task (no opus), reports stay under 15 lines with details in files, agents are not resumed more than twice, and `team/state/usage.md` records consumption per mission. See [`docs/TOKENS.md`](docs/TOKENS.md).
+
+## Design, research and docs
+- **Iris** builds the visual layer with the `ui-craft` skill, and uses `impeccable` (shape, critique, polish) when installed.
+- **`prior-art`**: before building something unclear or commonly solved, Winston, Amelia or Iris search GitHub for how mature projects did it, with license and safety rules.
+- **Context7** (bundled MCP server): agents check real library docs instead of guessing APIs.
+- What is bundled, recommended or left out, and why: [`docs/COMPANIONS.md`](docs/COMPANIONS.md).
+
+## Visual QA
+The `visual-qa` skill makes Quinn verify UI changes in a real browser with Playwright: before/after captures, light and dark themes, every picture opened and described. It uses the project's own Playwright setup.
+
 ## Git policy (enforced, not suggested)
 - Never commit, merge or push directly on `main` or `develop`; always a PR.
 - Branch names: `<type>/<scope>-<short-description>`, lowercase, no accents.
+- PR titles carry the ticket id (never the branch name); PR bodies are structured (Contexte, Changements, Vérification, Limites).
 - Short commit subjects (72 chars max). **No AI attribution**: no `Co-Authored-By`, no `Generated with`, no session trailers, in commits, PRs or merges.
 - Enforced in three layers: an agent-side `PreToolUse` hook, local `commit-msg` / `pre-push` git hooks, and GitHub branch protection.
 
 Full table: [`docs/BRANCHING.md`](docs/BRANCHING.md).
+
+## Privacy
+The bundled Context7 MCP server is a remote service run by Upstash. Library names and documentation questions sent by the agents leave your machine; do not put secrets or proprietary code in a documentation query. To opt out, remove `.mcp.json`. Details in [`docs/COMPANIONS.md`](docs/COMPANIONS.md#privacy).
 
 ## Evaluation
 [`team/evals/scenarios.md`](team/evals/scenarios.md) lists replayable scenarios (feature, bug, adversarial guardrail prompts, direct calls, missing proof). Replay after every prompt or hook change.
@@ -58,15 +95,16 @@ Full table: [`docs/BRANCHING.md`](docs/BRANCHING.md).
 ```
 agents/      one file per team member
 commands/    slash commands (workflows, /ask, /new-project, /team-init)
-skills/      reusable methods (git-hygiene)
+skills/      reusable methods (git-hygiene, tracker + adapters, visual-qa, ui-craft, prior-art)
 hooks/       hooks.json registering the PreToolUse guard
+.mcp.json    Context7 MCP server
 scripts/     guard-git.sh, commit-msg, pre-push, protect-branches.sh, new-project.sh
 team/        roster, protocol, state templates, evals
-docs/        branching policy
+docs/        branching policy, ticket trackers
 ```
 
 ## Status
-v0.1: skeleton and guardrails. Not yet battle-tested on a real ticket.
+v0.2: tested end to end on one real ticket (dark mode, web app): ticket, branch, implementation, review, QA, PR, merge. Findings from that run are folded into the agents and skills.
 
 ## License
 MIT

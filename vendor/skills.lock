@@ -1,0 +1,22 @@
+# local_name<TAB>repo<TAB>commit<TAB>upstream_dir<TAB>files (markdown only; scripts are never vendored)
+test-driven-development	obra/superpowers	2ce8aa15d05bd57213e6f746f953aafb7ded7a8b	skills/test-driven-development	SKILL.md writing-good-tests.md
+verification-before-completion	obra/superpowers	2ce8aa15d05bd57213e6f746f953aafb7ded7a8b	skills/verification-before-completion	SKILL.md
+writing-plans	obra/superpowers	2ce8aa15d05bd57213e6f746f953aafb7ded7a8b	skills/writing-plans	SKILL.md
+requesting-code-review	obra/superpowers	2ce8aa15d05bd57213e6f746f953aafb7ded7a8b	skills/requesting-code-review	SKILL.md code-reviewer.md
+receiving-code-review	obra/superpowers	2ce8aa15d05bd57213e6f746f953aafb7ded7a8b	skills/receiving-code-review	SKILL.md
+dispatching-parallel-agents	obra/superpowers	2ce8aa15d05bd57213e6f746f953aafb7ded7a8b	skills/dispatching-parallel-agents	SKILL.md
+grilling	mattpocock/skills	a496f5513d4a4cf889bc48e189e579f4b0bdf6aa	skills/productivity/grilling	SKILL.md
+handoff	mattpocock/skills	a496f5513d4a4cf889bc48e189e579f4b0bdf6aa	skills/productivity/handoff	SKILL.md
+to-spec	mattpocock/skills	a496f5513d4a4cf889bc48e189e579f4b0bdf6aa	skills/engineering/to-spec	SKILL.md
+to-tickets	mattpocock/skills	a496f5513d4a4cf889bc48e189e579f4b0bdf6aa	skills/engineering/to-tickets	SKILL.md
+diagnosing-bugs	mattpocock/skills	a496f5513d4a4cf889bc48e189e579f4b0bdf6aa	skills/engineering/diagnosing-bugs	SKILL.md
+codebase-design	mattpocock/skills	a496f5513d4a4cf889bc48e189e579f4b0bdf6aa	skills/engineering/codebase-design	SKILL.md DEEPENING.md DESIGN-IT-TWICE.md
+domain-modeling	mattpocock/skills	a496f5513d4a4cf889bc48e189e579f4b0bdf6aa	skills/engineering/domain-modeling	SKILL.md ADR-FORMAT.md GLOSSARY-FORMAT.md
+pr-description	mattpocock/skills	a496f5513d4a4cf889bc48e189e579f4b0bdf6aa	skills/engineering/pr	SKILL.md CREDITS.md
+retro	mattpocock/skills	a496f5513d4a4cf889bc48e189e579f4b0bdf6aa	skills/engineering/retro	SKILL.md
+architecture-decision-records	affaan-m/everything-claude-code	b38be6a7f6350964d59328b52f0624e1d1d552d1	skills/architecture-decision-records	SKILL.md
+documentation-lookup	affaan-m/everything-claude-code	b38be6a7f6350964d59328b52f0624e1d1d552d1	skills/documentation-lookup	SKILL.md
+accessibility	affaan-m/everything-claude-code	b38be6a7f6350964d59328b52f0624e1d1d552d1	skills/accessibility	SKILL.md
+frontend-design-direction	affaan-m/everything-claude-code	b38be6a7f6350964d59328b52f0624e1d1d552d1	skills/frontend-design-direction	SKILL.md
+click-path-audit	affaan-m/everything-claude-code	b38be6a7f6350964d59328b52f0624e1d1d552d1	skills/click-path-audit	SKILL.md
+security-review	affaan-m/everything-claude-code	b38be6a7f6350964d59328b52f0624e1d1d552d1	skills/security-review	SKILL.md
