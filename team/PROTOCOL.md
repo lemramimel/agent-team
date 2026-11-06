@@ -68,7 +68,7 @@ Only two model families are used: Haiku 5.5 and Sonnet 5.5, the current ones. Ol
 - PR title carries the ticket id; the branch name never does.
 - PR body is structured: Contexte, Changements, Vérification, Limites (in the repo's language), one-line bullets.
 - Git goes through `git-flow.sh`, which enforces these rules: run by Gita for judgment work (commit splits, messages, PR body), by Atlas for mechanical steps. Never directly on main or develop: branch `<type>/<scope>-<description>`, PR into develop. See docs/BRANCHING.md.
-- Merges happen only on the user's explicit approval and a green CI. The squash message is set explicitly (short, no trailer).
+- Merges happen only on the user's explicit approval and a green CI. The named call of `/deliver-ticket` counts as that approval for its ticket; it is suspended for `risk:high` and when there is no CI. The squash message is set explicitly (short, no trailer).
 
 ## Research before building
 - Research is triggered by an agent's own uncertainty, at the moment an unknown blocks a decision: an implementer stuck on a specific point (Amelia, Iris), or the architect facing a hard-to-reverse choice he cannot explain in two sentences (Winston). Run the `prior-art` skill then, on that point only. Nobody hands an agent a list of searches. Output: candidates, licenses, how each solved it, a recommendation. Decisions are recorded in `team/state/decisions.md` after validation.
