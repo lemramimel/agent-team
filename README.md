@@ -95,7 +95,7 @@ The bundled Context7 MCP server is a remote service run by Upstash. Library name
 ```
 agents/      one file per team member
 commands/    slash commands (workflows, /ask, /new-project, /team-init)
-skills/      reusable methods (git-hygiene, tracker + adapters, visual-qa, ui-craft, prior-art)
+skills/      reusable methods (git-hygiene, tracker + adapters, deliver-ticket, visual-qa, ui-craft, prior-art)
 hooks/       hooks.json registering the PreToolUse guard
 .mcp.json    Context7 MCP server
 scripts/     guard-git.sh, commit-msg, pre-push, protect-branches.sh, new-project.sh
