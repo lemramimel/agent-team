@@ -108,3 +108,7 @@ v0.2: tested end to end on one real ticket (dark mode, web app): ticket, branch,
 
 ## License
 MIT
+
+## Panneau `/feature`
+
+Un panneau latéral s'ouvre quand on lance `/feature #N` ou `/agent-team:feature #N` : étapes du workflow, agents de l'équipe en direct, risque, PR et CI. `/equipe` l'ouvre à la main. Il lit GitHub Issues (labels `risk:*`) et exige `git` et `gh` connecté.
