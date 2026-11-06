@@ -111,4 +111,4 @@ MIT
 
 ## Panneau `/feature`
 
-Un panneau latéral s'ouvre quand on lance `/feature #N` ou `/agent-team:feature #N` : étapes du workflow, agents de l'équipe en direct, risque, PR et CI. `/equipe` l'ouvre à la main. Il lit GitHub Issues (labels `risk:*`) et exige `git` et `gh` connecté.
+Un panneau latéral s'ouvre quand on lance `/feature #N` ou `/agent-team:feature #N` : étapes du workflow (avec les tokens dépensés par les sous-agents sur chaque étape et leur total), agents de l’équipe en direct, risque, PR et CI. `/equipe` l'ouvre à la main. Il lit GitHub Issues (labels `risk:*`) et exige `git` et `gh` connecté.

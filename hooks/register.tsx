@@ -5,9 +5,9 @@ import type { Phase, Run, Snapshot } from '../types'
 
 const PANE = 'feature-panel'
 const OPEN = { id: PANE, title: 'Feature', columns: 40, backgroundColor: 'transparent' } as const
-const EMPTY: Run = { ticket: '', startedAt: 0, isChecked: false, agents: {} }
+const EMPTY: Run = { ticket: '', startedAt: 0, isChecked: false, agents: {}, tokens: {} }
 const snapshot = atom({ plugin: 'feature-panel', key: 'snapshot' } as const, null as Snapshot | null, { shape: 'snapshot-1' })
-const run = atom({ plugin: 'feature-panel', key: 'run' } as const, EMPTY, { shape: 'run-1' })
+const run = atom({ plugin: 'feature-panel', key: 'run' } as const, EMPTY, { shape: 'run-2' })
 
 const ROSTER = ['atlas', 'mira', 'winston', 'sally', 'quinn', 'amelia', 'iris', 'vera', 'sam', 'gita', 'ned'] as const
 const ROLE: Record<string, string> = {
@@ -149,11 +149,28 @@ const agentOf = (e: any): string => {
   return String(t).replace(/^agent-team:/, '')
 }
 
-async function setAgent($: any, name: string, isStart: boolean) {
+// Tokens d'un sous-agent : `totalTokens` de son résultat.
+const tokensOf = (out: any): number => {
+  const n = Number(out?.result?.totalTokens ?? out?.totalTokens ?? 0)
+  return Number.isFinite(n) && n > 0 ? n : 0
+}
+
+// 12345 -> « 12,3k », 1234567 -> « 1,23M ».
+const fmt = (n: number): string => {
+  if (n < 1000) return String(n)
+  const [v, u] = n < 1_000_000 ? [n / 1000, 'k'] : [n / 1_000_000, 'M']
+  return `${(v >= 100 ? v.toFixed(0) : v >= 10 ? v.toFixed(1) : v.toFixed(2)).replace('.', ',')}${u}`
+}
+
+// Les tokens d'un sous-agent vont à l'étape en cours quand il se termine.
+async function setAgent($: any, name: string, isStart: boolean, tokens = 0) {
+  const snap = await read($, snapshot)
+  const at = snap?.phases.find(p => p.status === 'active') ?? [...(snap?.phases ?? [])].reverse().find(p => p.status === 'done')
   await update($, run, r => {
     const cur = r.agents[name] ?? { running: 0, runs: 0 }
     const next = isStart ? { running: cur.running + 1, runs: cur.runs + 1 } : { running: Math.max(0, cur.running - 1), runs: cur.runs }
-    return { ...r, agents: { ...r.agents, [name]: next } }
+    const spent = !isStart && tokens > 0 && at ? { ...r.tokens, [at.id]: (r.tokens[at.id] ?? 0) + tokens } : r.tokens
+    return { ...r, agents: { ...r.agents, [name]: next }, tokens: spent }
   })
   if (isShown) await sync($)
 }
@@ -189,10 +206,12 @@ export const register: Register = on => {
     const name = agentOf(e)
     if (!name || !(ROSTER as readonly string[]).includes(name)) return next(e)
     await setAgent($, name, true)
+    let out: unknown
     try {
-      return await next(e)
+      out = await next(e)
+      return out as any
     } finally {
-      await setAgent($, name, false)
+      await setAgent($, name, false, tokensOf(out))
     }
   })
 
@@ -238,6 +257,7 @@ export const register: Register = on => {
               {mark(p)} {p.label}
               <Text dimColor>  {p.agents.join(', ')}</Text>
             </Text>
+            {(r.tokens[p.id] ?? 0) > 0 && <Text dimColor>    {fmt(r.tokens[p.id] ?? 0)} tokens</Text>}
             {p.status !== 'done' && p.status !== 'skipped' && p.detail !== '' && <Text dimColor>    {p.detail}</Text>}
           </Box>
         ))}
@@ -262,6 +282,11 @@ export const register: Register = on => {
           <Text color={ci.c}>{ci.i} {s.runStatus || (s.hasCi ? 'aucun run' : 'aucun workflow')}</Text>
         </Box>
         {s.failedSteps.map(n => <Text color="red"> ✗ {n}</Text>)}
+        <Text dimColor>{rule}</Text>
+        <Box justifyContent="space-between">
+          {head('Tokens (sous-agents)')}
+          <Text bold>{fmt(Object.values(r.tokens).reduce((a, b) => a + b, 0))}</Text>
+        </Box>
       </Box>
     )
   })
