@@ -11,6 +11,8 @@ export type Run = {
   startedAt: number
   isChecked: boolean
   agents: Record<string, AgentRun>
+  /** Tokens dépensés par les sous-agents, par identifiant d'étape. */
+  tokens: Record<string, number>
 }
 export type Snapshot = {
   branch: string
